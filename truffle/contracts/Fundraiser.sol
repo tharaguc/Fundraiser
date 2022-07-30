@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
-contract Fundraiser {
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract Fundraiser is Ownable {
 	string public name;
 	string public url;
 	string public imgURL;
@@ -23,6 +25,10 @@ contract Fundraiser {
 		imgURL = _imgURL;
 		description = _description;
 		beneficiary = _beneficiary;
-		custodian = _custodian;
+		transferOwnership(_custodian);
+	}
+
+	function setBeneficiary(address payable _beneficiary) public onlyOwner {
+		beneficiary = _beneficiary;
 	}
 }
