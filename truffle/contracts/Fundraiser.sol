@@ -40,6 +40,9 @@ contract Fundraiser is Ownable {
 		transferOwnership(_custodian);
 	}
 
+	event DonationReceived(address indexed donor, uint256 value);
+	event Withdraw(uint256 amount);
+
 	function setBeneficiary(address payable _beneficiary) public onlyOwner {
 		beneficiary = _beneficiary;
 	}
@@ -48,7 +51,6 @@ contract Fundraiser is Ownable {
 		return _donations[msg.sender].length;
 	}
 
-	event DonationReceived(address indexed donor, uint256 value);
 
 	function donate() public payable {
 		Donation memory d = Donation({
@@ -72,5 +74,11 @@ contract Fundraiser is Ownable {
 			dates[i] = d.date;
 		}
 		return (values, dates);
+	}
+
+	function withdraw() public onlyOwner {
+		uint256 balance = address(this).balance;
+		beneficiary.transfer(balance);
+		emit Withdraw(balance);
 	}
 }
