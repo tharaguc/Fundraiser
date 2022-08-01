@@ -148,13 +148,11 @@ contract("Fundraiser", (accounts) => {
 			const expected = "Withdraw";
 			const actual = tx.logs[0].event;
 			assert.equal(actual, expected, "events should match");
-		})
-
+		});
 	});
 
 	describe("fallback function", () => {
 		const value = web3.utils.toWei('0.0289');
-
 		it("increases the totalDonations amount", async () => {
 			const currentTotalDonations = await fundraiser.totalDonations();
 			await web3.eth.sendTransaction({ to: fundraiser.address, from: accounts[9], value });
@@ -170,4 +168,5 @@ contract("Fundraiser", (accounts) => {
 			assert.equal(diff, 1, "donationsCount should increment by 1");
 		});
 	});
+
 });
