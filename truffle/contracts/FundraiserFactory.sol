@@ -5,6 +5,7 @@ import "./Fundraiser.sol";
 
 contract FundraiserFactory {
 	Fundraiser[] private _fundraisers;
+	uint256 constant maxLimit = 20;//fundraisers関数から返す[最大数]
 
 	event FundraiserCreated(Fundraiser indexed fundraiser, address indexed owner);
 
@@ -24,5 +25,20 @@ contract FundraiserFactory {
 
 	function fundraisersCount() public view returns(uint256) {
 		return _fundraisers.length;
+	}
+
+	function fundraisers(uint256 limit, uint256 offset) public view returns(Fundraiser[] memory collections) {
+		require(offset <= fundraisersCount(), "offset out of bounds");
+		uint256 size = fundraisersCount() - offset;
+		if (size > limit)
+			size = limit;
+		if (size > maxLimit)
+			size = maxLimit;
+		collections = new Fundraiser[](size);
+
+		for (uint256 i = 0; i < size; i++) {
+			collections[i] = _fundraisers[offset + i];
+		}
+		return collections;
 	}
 }
