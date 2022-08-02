@@ -16,7 +16,7 @@
     "react-router-dom": "^5.0.1",
     "react-scripts": "2.1.1",
     "redux": "^4.0.4",
-    "web3": "^1.2.1"
+    "web3": "^1.7.5"
   },
   "scripts": {
     "start": "react-scripts start",
